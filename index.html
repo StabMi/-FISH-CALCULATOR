@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>$FISH Token Allocation Calculator</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        table { border-collapse: collapse; width: 100%; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: right; }
+        th { background-color: #f2f2f2; text-align: left; }
+        .manual-input { background-color: yellow !important; }
+        .header { font-weight: bold; background-color: #e0e0e0; text-align: left; }
+        .section-header { background-color: #f9f9f9; font-style: italic; }
+        input { width: 100%; border: none; background: transparent; text-align: right; }
+        input.manual-input { background-color: yellow; }
+    </style>
+</head>
+<body>
+    <h1>$FISH Token Allocation Calculator</h1>
+    <p>Edit yellow-highlighted cells to update calculations. All values in numbers (e.g., 100000000 for supply).</p>
+    <table id="allocationTable">
+        <thead>
+            <tr>
+                <th>Items</th>
+                <th>Emblems</th>
+                <th>FP</th>
+                <th>HP</th>
+                <th>Founders</th>
+                <th>DV</th>
+                <th>Total Allocation (relative)</th>
+                <th>% TGE</th>
+                <th>$ Equivalent</th>
+                <th>$FISH Conversion</th>
+                <th>FDV/$FISH</th>
+                <th>$FISH Allocation =</th>
+                <th>$ (airdrop value)</th>
+                <th>50% Unlock TGE</th>
+                <th>0.5 $FISH Allocation @50% Unlock: $ (airdrop value)</th>
+                <th>0.5 Total (airdrop value)</th>
+                <th>Net claims column</th>
+                <th>0.5 (50% unlock at TGE) $ (Staking 50% of unlocked token for FDV Milestones eligibility)</th>
+                <th>Total (Staking 50% of unlocked token for FDV Milestones eligibility)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Fixed rows -->
+            <tr>
+                <td>Total Supply</td>
+                <td><input type="number" class="manual-input" id="totalSupply" value="100000000"></td>
+                <td class="fixed">0</td>
+                <td class="fixed">0</td>
+                <td class="fixed">0</td>
+                <td class="fixed">0</td>
+                <td id="totalAllocRel0" class="computed">0</td>
+                <td id="pctTGE0" class="computed">0</td>
+                <td id="equiv0" class="computed">0</td>
+                <td id="fishConv0" class="computed">0</td>
+                <td><input type="number" class="manual-input" id="fdvFish" value=""></td>
+                <td id="fishAlloc0" class="computed">0</td>
+                <td id="airdropVal0" class="computed">0</td>
+                <td id="unlock50_0" class="computed">0</td>
+                <td id="halfAlloc0" class="computed">0</td>
+                <td id="halfTotal0" class="computed">0</td>
+                <td id="netClaims0" class="computed">0</td>
+                <td id="staking0" class="computed">0</td>
+                <td id="totalStaking0" class="computed">0</td>
+            </tr>
+            <tr>
+                <td>Community & Grok</td>
+                <td class="fixed">50</td>
+                <td class="fixed">25</td>
+                <td class="fixed">25</td>
+                <td class="fixed">0</td>
+                <td class="fixed">0</td>
+                <td id="totalAllocRel1" class="computed">50</td>
+                <td id="pctTGE1" class="computed">50</td>
+                <td class="manual-input"><input type="number" id="equiv1" value="25000000"></td>
+                <td id="fishConv1" class="computed">0</td>
+                <td></td>
+                <td id="fishAlloc1" class="computed">0</td>
+                <td id="airdropVal1" class="computed">0</td>
+                <td id="unlock50_1" class="computed">0</td>
+                <td id="halfAlloc1" class="computed">0</td>
+                <td id="halfTotal1" class="computed">0</td>
+                <td id="netClaims1" class="computed">0</td>
+                <td id="staking1" class="computed">0</td>
+                <td id="totalStaking1" class="computed">0</td>
+            </tr>
+            <tr>
+                <td>Advisors &</td>
+                <td class="fixed">20</td>
+                <td class="fixed">10</td>
+                <td class="fixed">10</td>
+                <td class="fixed">0</td>
+                <td class="fixed">0</td>
+                <td id="totalAllocRel2" class="computed">20</td>
+                <td id="pctTGE2" class="computed">20</td>
+                <td class="manual-input"><input type="number" id="equiv2" value="10000000"></td>
+                <td id="fishConv2" class="computed">0</td>
+                <td></td>
+                <td id="fishAlloc2" class="computed">0</td>
+                <td id="airdropVal2" class="computed">0</td>
+                <td id="unlock50_2" class="computed">0</td>
+                <td id="halfAlloc2" class="computed">0</td>
+                <td id="halfTotal2" class="computed">0</td>
+                <td id="netClaims2" class="computed">0</td>
+                <td id="staking2" class="computed">0</td>
+                <td id="totalStaking2" class="computed">0</td>
+            </tr>
+            <tr>
+                <td>Team</td>
+                <td class="fixed">30</td>
+                <td class="fixed">65</td>
+                <td class="fixed">65</td>
+                <td class="fixed">0</td>
+                <td class="fixed">0</td>
+                <td id="totalAllocRel3" class="computed">30</td>
+                <td id="pctTGE3" class="computed">30</td>
+                <td class="manual-input"><input type="number" id="equiv3" value="30000000"></td>
+                <td id="fishConv3" class="computed">0</td>
+                <td></td>
+                <td id="fishAlloc3" class="computed">0</td>
+                <td id="airdropVal3" class="computed">0</td>
+                <td id="unlock50_3" class="computed">0</td>
+                <td id="halfAlloc3" class="computed">0</td>
+                <td id="halfTotal3" class="computed">0</td>
+                <td id="netClaims3" class="computed">0</td>
+                <td id="staking3" class="computed">0</td>
+                <td id="totalStaking3" class="computed">0</td>
+            </tr>
+            <!-- Dynamic rows -->
+            <tr>
+                <td>Emblems</td>
+                <td class="manual-input"><input type="number" id="emblemsTotal" value="2.38"></td>
+                <td class="manual-input"><input type="number" id="emblemsFP" value=""></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td id="totalAllocRel4" class="computed">0</td>
+                <td id="pctTGE4" class="computed"></td>
+                <td id="equiv4" class="computed">0</td>
+                <td id="fishConv4" class="computed">0</td>
+                <td></td>
+                <td id="fishAlloc4" class="computed">0</td>
+                <td id="airdropVal4" class="computed">0</td>
+                <td id="unlock50_4" class="computed">0</td>
+                <td id="halfAlloc4" class="computed">0</td>
+                <td id="halfTotal4" class="computed">0</td>
+                <td id="netClaims4" class="computed">0</td>
+                <td id="staking4" class="computed">0</td>
+                <td id="totalStaking4" class="computed">0</td>
+            </tr>
+            <tr>
+                <td>FP</td>
+                <td class="manual-input"><input type="number" id="fpTotal" value="37.51"></td>
+                <td class="manual-input"><input type="number" id="fpFP" value="4.51"></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td id="totalAllocRel5" class="computed">0</td>
+                <td id="pctTGE5" class="computed"></td>
+                <td id="equiv5" class="computed">0</td>
+                <td id="fishConv5" class="computed">0</td>
+                <td></td>
+                <td id="fishAlloc5" class="computed">0</td>
+                <td id="airdropVal5" class="computed">0</td>
+                <td id="unlock50_5" class="computed">0</td>
+                <td id="halfAlloc5" class="computed">0</td>
+                <td id="halfTotal5" class="computed">0</td>
+                <td id="netClaims5" class="computed">0</td>
+                <td id="staking5" class="computed">0</td>
+                <td id="totalStaking5" class="computed">0</td>
+            </tr>
+            <tr class="header">
+                <td>Total</td>
+                <td id="emblemsSum" class="computed">39.89</td>
+                <td id="fpSum" class="computed">4.51</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td id="totalAllocRel6" class="computed">44.38</td>
+                <td id="pctTGE6" class="computed"></td>
+                <td id="equiv6" class="computed">2926200</td>
+                <td id="fishConv6" class="computed">0</td>
+                <td></td>
+                <td id="fishAlloc6" class="computed">0</td>
+                <td id="airdropVal6" class="computed">0</td>
+                <td id="unlock50_6" class="computed">0</td>
+                <td id="halfAlloc6" class="computed">0</td>
+                <td id="halfTotal6" class="computed">0</td>
+                <td id="netClaims6" class="computed">0</td>
+                <td id="staking6" class="computed">0</td>
+                <td id="totalStaking6" class="computed">0</td>
+            </tr>
+            <tr class="section-header">
+                <td>FISH Conversion</td>
+                <td colspan="18" style="text-align: center;">Points/Total Items * Total Allocation (relative)</td>
+            </tr>
+            <tr class="section-header">
+                <td>FDV/FISH</td>
+                <td colspan="18" style="text-align: center;">Manual input for ratio</td>
+            </tr>
+            <tr>
+                <td>FISH Listing Price $</td>
+                <td id="fishListingPrice" class="computed" colspan="18"></td>
+            </tr>
+            <tr>
+                <td>Marketcap:</td>
+                <td id="marketcap" class="computed" colspan="18"></td>
+            </tr>
+            <tr class="section-header">
+                <td>FISH Allocation =</td>
+                <td colspan="18" style="text-align: center;">$FISH conversion * $FISH Listing Price. Total: Sum of all</td>
+            </tr>
+            <tr class="section-header">
+                <td>$ (airdrop value):</td>
+                <td colspan="18" style="text-align: center;">$FISH Allocation * $FISH Listing Price</td>
+            </tr>
+            <tr class="section-header">
+                <td>50% unlock at TGE:</td>
+                <td colspan="18" style="text-align: center;">0.5 * $FISH Allocation</td>
+            </tr>
+            <tr class="section-header">
+                <td>0.5 Total (airdrop value):</td>
+                <td id="totalHalfAirdrop" class="computed" colspan="18">Sum of 50% Unlock column</td>
+            </tr>
+            <tr class="section-header">
+                <td>Net claims column:</td>
+                <td colspan="18" style="text-align: center;">0.5 * 50% Unlock (i.e., 25% of full)</td>
+            </tr>
+            <tr class="section-header">
+                <td>Total (Staking 50% of unlocked token for FDV Milestones eligibility):</td>
+                <td id="totalStakingFinal" class="computed" colspan="18">Sum of Staking column</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <script>
+        // Get all input elements and add event listeners
+        const inputs = document.querySelectorAll('input[type="number"]');
+        inputs.forEach(input => input.addEventListener('input', calculateAll));
+
+        function calculateAll() {
+            const totalSupply = parseFloat(document.getElementById('totalSupply').value) || 0;
+            const fdvFish = parseFloat(document.getElementById('fdvFish').value) || 0;
+            const fishListingPrice = totalSupply > 0 ? fdvFish / totalSupply : 0;
+            document.getElementById('fishListingPrice').textContent = fishListingPrice.toLocaleString();
+
+            const marketcap = fishListingPrice * totalSupply;
+            document.getElementById('marketcap').textContent = marketcap.toLocaleString();
+
+            // Fixed $ Equivalent inputs
+            const equiv1 = parseFloat(document.getElementById('equiv1').value) || 0;
+            const equiv2 = parseFloat(document.getElementById('equiv2').value) || 0;
+            const equiv3 = parseFloat(document.getElementById('equiv3').value) || 0;
+
+            // Dynamic Emblems and FP
+            const emblemsTotal = parseFloat(document.getElementById('emblemsTotal').value) || 0;
+            const emblemsFP = parseFloat(document.getElementById('emblemsFP').value) || 0;
+            const fpTotal = parseFloat(document.getElementById('fpTotal').value) || 0;
+            const fpFP = parseFloat(document.getElementById('fpFP').value) || 0;
+
+            // Row calculations (index 0: Total Supply, 1-3: Fixed, 4: Emblems, 5: FP, 6: Total)
+            const rows = [0,1,2,3,4,5]; // Computable rows
+            let totalFishConv = 0;
+            let totalFishAlloc = 0;
+            let totalUnlock50 = 0;
+            let totalNetClaims = 0;
+
+            rows.forEach(rowIdx => {
+                let totalRel, fishConv, equiv;
+                if (rowIdx === 0) {
+                    // Total Supply row: special, no allocation
+                    totalRel = 0;
+                    fishConv = 0;
+                    equiv = 0;
+                } else if (rowIdx <= 3) {
+                    // Fixed rows: use fixed equiv, totalRel from sum (but fixed)
+                    totalRel = parseFloat(document.getElementById(`totalAllocRel${rowIdx}`).textContent) || 0;
+                    equiv = rowIdx === 1 ? equiv1 : rowIdx === 2 ? equiv2 : equiv3;
+                    fishConv = totalRel * totalSupply / 100 / totalSupply; // Simplified to relative/100 as fraction
+                } else if (rowIdx === 4) {
+                    // Emblems
+                    document.getElementById('totalAllocRel4').textContent = (emblemsTotal + emblemsFP).toFixed(2);
+                    totalRel = emblemsTotal + emblemsFP;
+                    equiv = totalRel / 100 * totalSupply;
+                    document.getElementById('equiv4').textContent = equiv.toLocaleString();
+                    fishConv = totalRel * totalSupply / 100 / totalSupply; // relative % to fraction
+                } else if (rowIdx === 5) {
+                    // FP
+                    document.getElementById('totalAllocRel5').textContent = (fpTotal + fpFP).toFixed(2);
+                    totalRel = fpTotal + fpFP;
+                    equiv = totalRel / 100 * totalSupply;
+                    document.getElementById('equiv5').textContent = equiv.toLocaleString();
+                    fishConv = totalRel * totalSupply / 100 / totalSupply;
+                }
+                document.getElementById(`fishConv${rowIdx}`).textContent = fishConv.toFixed(6);
+                totalFishConv += fishConv;
+
+                const fishAlloc = fishConv * totalSupply; // Full tokens
+                document.getElementById(`fishAlloc${rowIdx}`).textContent = fishAlloc.toLocaleString();
+                totalFishAlloc += fishAlloc;
+
+                const airdropVal = fishAlloc * fishListingPrice;
+                document.getElementById(`airdropVal${rowIdx}`).textContent = airdropVal.toLocaleString();
+
+                const unlock50 = 0.5 * fishAlloc * fishListingPrice;
+                document.getElementById(`unlock50_${rowIdx}`).textContent = unlock50.toLocaleString();
+                totalUnlock50 += unlock50;
+
+                const halfAlloc = 0.5 * unlock50; // 0.5 of 50% = 25%
+                document.getElementById(`halfAlloc${rowIdx}`).textContent = halfAlloc.toLocaleString();
+
+                const netClaims = 0.5 * unlock50;
+                document.getElementById(`netClaims${rowIdx}`).textContent = netClaims.toLocaleString();
+                totalNetClaims += netClaims;
+
+                const staking = netClaims * fishListingPrice; // But since netClaims already $, it's netClaims
+                document.getElementById(`staking${rowIdx}`).textContent = staking.toLocaleString();
+            });
+
+            // Total row (index 6)
+            document.getElementById('emblemsSum').textContent = (50 + 20 + 30 + emblemsTotal).toFixed(2);
+            document.getElementById('fpSum').textContent = (25 + 10 + 65 + fpFP).toFixed(2);
+            document.getElementById('totalAllocRel6').textContent = (100 + emblemsTotal + fpTotal).toFixed(2); // Assuming 100% base
+            document.getElementById('equiv6').textContent = (totalFishConv * totalSupply).toLocaleString();
+            document.getElementById('fishConv6').textContent = totalFishConv.toFixed(6);
+            document.getElementById('fishAlloc6').textContent = totalFishAlloc.toLocaleString();
+            document.getElementById('airdropVal6').textContent = (totalFishAlloc * fishListingPrice).toLocaleString();
+            document.getElementById('unlock50_6').textContent = (totalUnlock50).toLocaleString();
+            document.getElementById('halfAlloc6').textContent = (0.5 * totalUnlock50).toLocaleString();
+            document.getElementById('halfTotal6').textContent = (0.5 * totalUnlock50).toLocaleString();
+            document.getElementById('netClaims6').textContent = totalNetClaims.toLocaleString();
+            document.getElementById('staking6').textContent = (totalNetClaims * fishListingPrice).toLocaleString();
+
+            // Summary totals
+            document.getElementById('totalHalfAirdrop').textContent = totalUnlock50.toLocaleString();
+            document.getElementById('totalStakingFinal').textContent = (totalNetClaims * fishListingPrice).toLocaleString();
+
+            // Update % TGE for fixed rows (static)
+            [1,2,3].forEach(i => document.getElementById(`pctTGE${i}`).textContent = document.getElementById(`totalAllocRel${i}`).textContent);
+        }
+
+        // Initial calculation
+        calculateAll();
+    </script>
+</body>
+</html>
